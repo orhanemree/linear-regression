@@ -72,18 +72,3 @@ double calculateRSquare(double *x, double *y, int n, double m, double b) {
 
     return ssr / sst;
 }
-
-
-int main() {
-
-    double m, b;
-
-    double x[255] = {5, 10, 15, 20};
-    double y[255] = {25, 30, 45, 70};
-
-    int n = 4;
-
-    calculateFormula(x, y, 4, &m, &b);
-
-    return 0;
-}
