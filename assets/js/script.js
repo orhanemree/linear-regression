@@ -22,6 +22,8 @@ window.onload = async () => {
     regExports = regWasm.instance.exports;
     regWasmMemory = new DataView(regExports.memory.buffer);
 
+    console.log(regExports);
+
     // clear canvas
     runProgram(aldrinExports, canvas, "aldrin_fill(ac, 0xffffff)", 1, 0);
 }
@@ -45,10 +47,14 @@ canvas.onclick = e => {
 
     n = xCoords.length;
 
+    console.log(xCoords);
+    console.log(yCoords);
+
     // minimum 2 point wanted for the algorithm
     if (n >= 2) {
         calculate();
-        display();    
+        display();
+        calculateRSquared();
     }
 }
 
@@ -148,6 +154,7 @@ const displayDataset = () => {
     if (n >= 2) {
         calculate();
         display();
+        calculateRSquared();
     }
 }
 
@@ -207,4 +214,26 @@ const display = () => {
 
     const program = `aldrin_draw_line(ac, ${x1}, ${y1}, ${x2}, ${y2}, 0x00ff00, 3)`;
     runProgram(aldrinExports, canvas, program, 0, 0);
+}
+
+
+
+// calculate R-Squared score
+
+const rSquaredScoreHolder = document.querySelector("#rsquared-score");
+
+const calculateRSquared = () => {
+    // set arg pointers to pass C function
+    const xPtr = 0; // 0 by default -not sure if its a good idea
+    const yPtr = xPtr + n*8;
+
+    // write function arguments to memory to pass C
+    const xMemory = new Float64Array(regExports.memory.buffer, xPtr, n);
+    xMemory.set(xCoords);
+
+    const yMemory = new Float64Array(regExports.memory.buffer, yPtr, n);
+    yMemory.set(yCoords);
+
+    const score = regExports.calculateRSquared(xPtr, yPtr, n, m, b);
+    rSquaredScoreHolder.innerText = score;
 }

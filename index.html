@@ -8,12 +8,18 @@
 </head>
 <body>
     
-    <div>
+    <div class="flex-cont">
         <div>
             <canvas id="c" style="border: 1px solid black" width="300" height="300"></canvas>
         </div>
+        <div class="flex-cont-col">
+            <!-- ADD: Calculate RMSE score for a specific point -->
+            <div>
+                R^2 Score: <span id="rsquared-score"></span>
+            </div>
+        </div>
     </div>
-    <div class="flex-cont">
+    <div class="flex-cont-col">
         <div>Click to add data point</div>
         <div>or
             <input type="file" id="upload-dataset" accept=".csv" style="display: none;">
@@ -21,7 +27,7 @@
              style="border: 1px solid black; border-radius: 2px; padding: 5px;">upload csv file</label>.
         </div>
         <div>Minimum 2 data points are required.</div>
-        <div id="upload-dataset-controls-cont" class="flex-cont" style="display: none">
+        <div id="upload-dataset-controls-cont" class="flex-cont-col" style="display: none">
             select X values: <select id="upload-dataset-controls-x">
                 <option value=""></option>
             </select>

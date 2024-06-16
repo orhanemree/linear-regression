@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: large;
 }
 
 
@@ -11,6 +12,14 @@ body {
 
 
 .flex-cont {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 10px;
+}
+
+
+.flex-cont-col {
     display: flex;
     flex-direction: column;
     align-items: start;

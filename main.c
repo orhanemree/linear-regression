@@ -53,7 +53,7 @@ double calculateRMSE(double *x, double *y, int n, double m, double b) {
 }
 
 
-double calculateRSquare(double *x, double *y, int n, double m, double b) {
+double calculateRSquared(double *x, double *y, int n, double m, double b) {
     // x and y are array
 
     // find mean y
