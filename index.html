@@ -9,7 +9,27 @@
 <body>
     
     <div>
-        <canvas id="c" style="border: 1px solid black" width="300" height="300"></canvas>
+        <div>
+            <canvas id="c" style="border: 1px solid black" width="300" height="300"></canvas>
+        </div>
+    </div>
+    <div class="flex-cont">
+        <div>Click to add data point</div>
+        <div>or
+            <input type="file" id="upload-dataset" accept=".csv" style="display: none;">
+            <label for="upload-dataset"
+             style="border: 1px solid black; border-radius: 2px; padding: 5px;">upload csv file</label>.
+        </div>
+        <div>Minimum 2 data points are required.</div>
+        <div id="upload-dataset-controls-cont" class="flex-cont" style="display: none">
+            select X values: <select id="upload-dataset-controls-x">
+                <option value=""></option>
+            </select>
+            select Y values: <select id="upload-dataset-controls-y">
+                <option value=""></option>
+            </select>
+            <div>You can still click and add new data points!</div>
+        </div>
     </div>
 
     <script src="assets/js/script.js" type="module"></script>

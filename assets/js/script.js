@@ -1,6 +1,9 @@
 import { loadWasm, runProgram } from "./helpers.js";
 
 
+const WIDTH = 300;
+const HEIGHT = 300;
+
 // load wasm files
 
 // Aldrin is a 2d computer graphics library written in C
@@ -28,13 +31,17 @@ let xCoords = [];
 let yCoords = [];
 let n;
 
+
+// data points added by click
+
+
 const canvas = document.querySelector("canvas#c");
 canvas.onclick = e => {
 
     // store points
 
-    xCoords.push(e.x);
-    yCoords.push(e.y);
+    xCoords.push(e.offsetX);
+    yCoords.push(e.offsetY);
 
     n = xCoords.length;
 
@@ -44,6 +51,106 @@ canvas.onclick = e => {
         display();    
     }
 }
+
+
+
+// data file uploaded 
+const datasetInput = document.querySelector("input#upload-dataset");
+const datasetControlsCont = document.querySelector("#upload-dataset-controls-cont");
+const datasetControlsX = datasetControlsCont.querySelector("#upload-dataset-controls-x");
+const datasetControlsY = datasetControlsCont.querySelector("#upload-dataset-controls-y");
+
+let datasetRows = [];
+
+datasetInput.onchange = e => {
+    const file = e.target.files[0];
+
+    if (!file) { return };
+
+    const reader = new FileReader();
+    reader.onload = e => {
+
+        const text = e.target.result;
+        const rows = text.split("\n");
+
+        const cols = rows[0].split(",");
+
+        // parse col names
+        for (let i = 0; i < cols.length; ++i) {
+
+            const col = cols[i];
+
+            // add option to X and Y controls
+            const optionX = document.createElement("option");
+            optionX.innerText = col;
+            optionX.value = i;
+            datasetControlsX.appendChild(optionX);
+
+            const optionY = document.createElement("option");
+            optionY.innerText = col;
+            optionY.value = i;
+            datasetControlsY.appendChild(optionY);
+        }
+
+
+        // parse row values
+        for (let i = 1; i < rows.length; ++i) {
+
+            const row = rows[i];
+
+            datasetRows.push(row.split(","));
+        }
+    }
+
+    reader.readAsText(file);
+
+    datasetControlsCont.style.display = "flex";
+} 
+
+let xValue, yValue;
+
+
+datasetControlsX.onchange = e => {
+    xValue = datasetControlsX.value;
+
+    if (datasetControlsX.value && yValue) {
+        displayDataset();
+    }
+}
+
+datasetControlsY.onchange = e => {
+    yValue = datasetControlsY.value;
+
+    if (datasetControlsY.value && xValue) {
+        displayDataset();
+    }
+}
+
+
+const normalizeCoord = (c, oldMin, oldMax, newMin, newMax) => {
+    return (c-oldMin)*(newMax-newMin)/(oldMax-oldMin)+newMin;
+}
+
+
+const displayDataset = () => {
+
+    xCoords = datasetRows.map(r => parseInt(r[parseInt(xValue)]));
+    xCoords = xCoords.map(c => normalizeCoord(c,
+        Math.min(...xCoords), Math.max(...xCoords), 0, WIDTH));
+
+    yCoords = datasetRows.map(r => parseInt(r[parseInt(yValue)]));
+    yCoords = yCoords.map(c => HEIGHT - normalizeCoord(c,
+        Math.min(...yCoords), Math.max(...yCoords), 0, HEIGHT));
+    
+    n = xCoords.length;
+
+    // minimum 2 point wanted for the algorithm
+    if (n >= 2) {
+        calculate();
+        display();
+    }
+}
+
 
 
 let m, b;
@@ -98,6 +205,6 @@ const display = () => {
     const x2 = 300;
     const y2 = m*x2+b;
 
-    const program = `aldrin_draw_line(ac, ${x1}, ${y1}, ${x2}, ${y2}, 0x00ff00, 2)`;
+    const program = `aldrin_draw_line(ac, ${x1}, ${y1}, ${x2}, ${y2}, 0x00ff00, 3)`;
     runProgram(aldrinExports, canvas, program, 0, 0);
 }
