@@ -11,7 +11,7 @@ I am practicing some linear regression concepts in C over here.
 ## References
 * [Linear Regression from Scratch](https://towardsdatascience.com/linear-regression-from-scratch-cd0dee067f72)
 * [Linear Regression and Gradient Descent](https://medium.com/analytics-vidhya/stop-just-using-machine-learning-and-learn-how-to-build-it-linear-regression-and-gradient-descent-3653de24c6d5)
-* * [Multiple Linear Regression from Scratch using Python](https://medium.com/analytics-vidhya/multiple-linear-regression-from-scratch-using-python-db9368859f)
+* [Multiple Linear Regression from Scratch using Python](https://medium.com/analytics-vidhya/multiple-linear-regression-from-scratch-using-python-db9368859f)
 * Our lovelyy GPT <3
 
 ## Sample Datasets
