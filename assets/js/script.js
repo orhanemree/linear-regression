@@ -76,6 +76,9 @@ datasetInput.onchange = e => {
     const reader = new FileReader();
     reader.onload = e => {
 
+        datasetControlsX.innerHTML = `<option value=""></option>`;
+        datasetControlsY.innerHTML = `<option value=""></option>`;
+
         const text = e.target.result;
         const rows = text.split("\n");
 
